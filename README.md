@@ -1,6 +1,6 @@
-# When Waiting is not an Option : Learning Options with a Deliberation Cost
+# Safe Option-Critic: Learning Safety in Option-Critic Architecture
 
-Arxiv link: https://arxiv.org/pdf/1709.04571.pdf
+Arxiv link:
 
 ## Installation
 
