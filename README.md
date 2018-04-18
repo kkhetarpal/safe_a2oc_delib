@@ -61,7 +61,7 @@ or you might need to run:
 THEANO_FLAGS=floatX=float32 python2.7 watch.py models/Montezuma_model/
 ```
 
-## Plot training curves
+## Plot Learning curves
 
 To plot multiple training curves during or after training, you could run:
 ```
