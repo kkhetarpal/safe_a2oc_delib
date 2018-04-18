@@ -80,7 +80,7 @@ while True:
       if "--" not in dd: legends.append(dd.split("/")[-2])
     plt.legend(all_p, legends, loc=2, prop={'size': 6})
     #fig.canvas.mpl_connect('close_event', handle_close)
-    #plt.draw()
+    plt.draw()
     plt.savefig('Training_Curves.png')
     exit(0)
     #plt.pause(refresh_rate)

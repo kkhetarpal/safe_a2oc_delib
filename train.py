@@ -82,7 +82,7 @@ class ALE_env(Environment):
     for i in range(self.args.frame_skip):
       if done:
         break
-      new_obs, rew, done, info = self.env.step(action)
+      new_obs, rew, done, info = self.env.step(action)  #calculate 1-step TD(so,wo) for first time here and that is all!
       self.old_obs = np.copy(self.new_obs)
       self.new_obs = new_obs
       raw_reward += rew
@@ -124,12 +124,14 @@ class Training():
 
     self.env = ALE_env(args, rng=rng)
     self.agent = AOCAgent_THEANO(self.env.action_space, id_num, arr, num_moves, args)
-
+    self.count = 0
     self.train()
+
 
   def train(self):
     total_reward = 0
-    x = self.env.reset()
+    x = self.env.reset()   #returns the current x
+    self.count += 1
     self.agent.reset(x)
     timer = time.time()
     recent_fps = []
@@ -170,12 +172,19 @@ class Training():
           self.agent.save_values(folder_name)
           print "saved model"
         total_reward = 0
-        x = self.env.reset()
+        x = self.env.reset() #get next state
+        self.count = 1
         self.agent.reset(x)
         done = False
 
       action = self.agent.get_action(x)
-      new_x, reward, done, death = self.env.act(action)
+      if self.count == 1:
+        self.agent.so_init = x
+        self.agent.wo_init = self.agent.current_o
+        self.agent.initstateoptionflag = True
+      elif (x == self.agent.so_init) and (self.agent.current_o == self.agent.wo_init):
+        self.agent.initstateoptionflag = True
+      new_x, reward, done, death = self.env.act(action)    #Takes an action
       self.agent.store(x, new_x, action, reward, done, death)
       if self.args.testing:
         self.env.render()

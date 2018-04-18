@@ -53,6 +53,14 @@ class AOCAgent_THEANO():
     a = T.ivector()
     o = T.ivector()
     delib = T.fscalar()
+    self.so = T.ftensor4()  #all of this is a seq
+    self.wo = T.ivector()
+    self.ao = T.ivector()
+    self.tderrorsqr_so_wo = T.fscalar()
+    self.initstateoptionflag = True
+    self.so_init = np.zeros((self.args.concat_frames * (1 if self.args.grayscale else 3), 84, 84), dtype="float32")
+    self.wo_init = 0
+    self.so_wo_t_counter = 0
 
     s = self.conv.apply(x/np.float32(255))
     intra_option_policy = self.options_model.apply(s, o)
@@ -76,8 +84,17 @@ class AOCAgent_THEANO():
 
     if args.controllability == False:
       pg = aggr((T.log(intra_option_policy[T.arange(a.shape[0]), a] + log_eps)) * (y - disc_opt_q)) #Original update without controllability
+    #elif args.controllability == True:
+    #  pg = aggr((T.log(intra_option_policy[T.arange(a.shape[0]), a] + log_eps)) * (y - disc_opt_q - args.beta *(T.sqr(y-current_option_q)))) #Adding -Beta*Sqr(TD_Errors)
     elif args.controllability == True:
-      pg = aggr((T.log(intra_option_policy[T.arange(a.shape[0]), a] + log_eps)) * (y - disc_opt_q - args.beta *(T.sqr(y-current_option_q)))) #Adding -Beta*Sqr(TD_Errors)
+      if self.initstateoptionflag == True:
+        self.tderrorsqr_so_wo = args.beta * T.sqr(y[self.so_wo_t_counter:]-current_option_q[self.so_wo_t_counter:])
+        self.ao = a[self.so_wo_t_counter:]
+        self.so = s[self.so_wo_t_counter:]
+        self.wo = o[self.so_wo_t_counter:]
+        intra_option_policy_initial = self.options_model.apply(self.so, self.wo)
+        self.initstateoptionflag = False
+      pg = aggr((T.log(intra_option_policy[T.arange(a.shape[0]), a] + log_eps)) * (y - disc_opt_q)) - aggr((T.log(intra_option_policy_initial[T.arange(self.ao.shape[0]), self.ao] + log_eps)) * self.tderrorsqr_so_wo)
 
     cost = pg + entropy - critic_cost - termination_grad
 
@@ -156,8 +173,11 @@ class AOCAgent_THEANO():
     if self.terminated:
       self.current_o = self.get_policy_over_options([self.current_s])
       self.o_tracker_chosen[self.current_o] += 1
+      #print "Option Chosen on Termination", self.current_o, "\n"
 
     self.o_tracker_steps[self.current_o] += 1
+    #print "Option Chosen", self.current_o, "\n"
+    #raw_input("Press Enter to continue...")
 
   def init_tracker(self):
     csv_things = ["moves", "reward", "term_prob"]
@@ -207,6 +227,10 @@ class AOCAgent_THEANO():
     self.o_seq[self.t_counter] = np.copy(self.current_o)
     self.a_seq[self.t_counter] = np.copy(action)
     self.r_seq[self.t_counter] = np.copy(float(reward)) - (float(self.terminated)*self.delib*(1-float(end_ep)))
+
+    if self.initstateoptionflag == True:
+      self.so_wo_t_counter = self.t_counter #copy from this index
+
 
     self.t_counter += 1
 
