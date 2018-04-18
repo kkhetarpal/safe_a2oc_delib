@@ -1,8 +1,10 @@
 # Safe Option-Critic: Learning Safety in Option-Critic Architecture
 
-Arxiv link:
+This repo contains code accompanying the paper, [Safe Option-Critic: Learning Safety](https://github.com/kkhetarpal/safe_a2oc_delib) in the Option-Critic Architecture. 
 
-## Installation
+For experiments in the grid-world and cartpole, see this [codebase](https://github.com/arushi12130/LearningSafeOptions).
+
+## Dependencies
 
 Here's a list of all dependencies:
 
@@ -68,3 +70,4 @@ To plot multiple training curves during or after training, you could run:
 python2.7 utils/plot.py pathto/models/MsPacman_DC0.02_MC0.99_C0.15_OPT4_EPS0.2 pathto/models/MsPacman_DC0.02_MC0.99_C0_OPT4_EPS0.2/ pathto/models/MsPacman_DC0.02_MC0.99_C0.5_OPT4_EPS0.2/ pathto/models/MsPacman_DC0.02_MC0.99_C2.0_OPT4_EPS0.2/
 ```
 
+## 
