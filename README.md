@@ -70,4 +70,6 @@ To plot multiple training curves during or after training, you could run:
 python2.7 utils/plot.py pathto/models/MsPacman_DC0.02_MC0.99_C0.15_OPT4_EPS0.2 pathto/models/MsPacman_DC0.02_MC0.99_C0_OPT4_EPS0.2/ pathto/models/MsPacman_DC0.02_MC0.99_C0.5_OPT4_EPS0.2/ pathto/models/MsPacman_DC0.02_MC0.99_C2.0_OPT4_EPS0.2/
 ```
 
-## 
+## Contact
+To ask questions, please open an issue on the [issues tracker](https://github.com/kkhetarpal/safe_a2oc_delib/issues).
+
