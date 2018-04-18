@@ -2,7 +2,7 @@
 
 This repo contains code accompanying the paper, [Safe Option-Critic: Learning Safety](https://github.com/kkhetarpal/safe_a2oc_delib) in the Option-Critic Architecture. 
 
-For experiments in the grid-world and cartpole, see this [codebase](https://github.com/arushi12130/LearningSafeOptions).
+For experiments in the grid-world and cartpole, see this [codebase](https://github.com/arushi12130/SafeOptionCritic).
 
 ## Dependencies
 
