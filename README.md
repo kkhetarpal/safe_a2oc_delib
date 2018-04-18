@@ -55,7 +55,7 @@ THEANO_FLAGS=floatX=float32 python2.7 train.py --sub-env Seaquest --num-options 
 To watch model after training, run watch.py and give it the path the saved model files. e.g.:
 ```
 python watch.py models/Breakout_model/
-``
+```
 or you might need to run:
 ```
 THEANO_FLAGS=floatX=float32 python2.7 watch.py models/Montezuma_model/
