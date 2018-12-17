@@ -1,6 +1,6 @@
 # Safe Option-Critic: Learning Safety in Option-Critic Architecture
 
-This repo contains code accompanying the paper, [Safe Option-Critic: Learning Safety](https://github.com/kkhetarpal/safe_a2oc_delib) in the Option-Critic Architecture. 
+This repo contains code accompanying the paper, [Safe Option-Critic: Learning Safety](https://github.com/kkhetarpal/safe_a2oc_delib) in the Option-Critic Architecture.
 
 For experiments in the grid-world and cartpole, see this [codebase](https://github.com/arushi12130/SafeOptionCritic).
 
@@ -69,6 +69,12 @@ To plot multiple training curves during or after training, you could run:
 ```
 python2.7 utils/plot.py pathto/models/MsPacman_DC0.02_MC0.99_C0.15_OPT4_EPS0.2 pathto/models/MsPacman_DC0.02_MC0.99_C0_OPT4_EPS0.2/ pathto/models/MsPacman_DC0.02_MC0.99_C0.5_OPT4_EPS0.2/ pathto/models/MsPacman_DC0.02_MC0.99_C2.0_OPT4_EPS0.2/
 ```
+
+To plot multiple runs averaged learning curves, you could run:
+```
+python2.7 utils/plotmultiruns.py /pathto/models_run5/models/MsPacman_DC0.02_MC0.99_C0_OPT4_EPS0.2 /pathto/serverbackup/models_run5/models/MsPacman_DC0.02_MC0.99_C0.05_OPT4_EPS0.2 /pathto/models_run5/models/MsPacman_DC0.02_MC0.99_C0.10_OPT4_EPS0.2 /pathto/serverbackup/models_run5/models/MsPacman_DC0.02_MC0.99_C0.15_OPT4_EPS0.2 /pathto/models_run5/models/MsPacman_DC0.02_MC0.99_C0.25_OPT4_EPS0.2
+```
+Here, it is assumed that you have the data from all different runs saved in the``` path1/models_runx/models```
 
 ## Contact
 To ask questions, please open an issue on the [issues tracker](https://github.com/kkhetarpal/safe_a2oc_delib/issues).
